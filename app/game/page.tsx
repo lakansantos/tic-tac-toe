@@ -1,6 +1,6 @@
-'use client';
 import React from 'react';
 import {Box} from '@mui/material';
+import Board from 'modules/Board/Board';
 
 function TicTacToe() {
   return (
@@ -15,7 +15,9 @@ function TicTacToe() {
         color: '#9DECF9',
       }}
     >
-      Home
+      <Box sx={{mt: 2}}>
+        <Board />
+      </Box>
     </Box>
   );
 }

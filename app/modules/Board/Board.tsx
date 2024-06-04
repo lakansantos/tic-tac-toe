@@ -1,44 +1,61 @@
-import React, {useState} from 'react';
+'use client';
+import React, {useEffect, useState} from 'react';
 import {Box, Typography} from '@mui/material';
 import BoardSquare from 'modules/Board/BoardSquare';
 import calculateWinner from './boardCalculateWinner';
+import BoardAnnounceWinnerDialog from './BoardAnnounceWinnerDialog';
+import {useRouter} from 'next/navigation';
 
 function Board() {
-  const [squares, setSquares] = useState(Array(9).fill(null));
+  const defaultSquares = Array(9).fill(null);
+  const [squares, setSquares] = useState(defaultSquares);
   const [isXNext, setIsXNext] = useState(true);
-  const [winnerInfo, setWinnerInfo] = useState<{
-    winner: string | null;
-    line: number[];
-  }>({winner: null, line: []});
+  const [winner, setWinner] = useState<string | null>(null);
+  const [scores, setScores] = useState({
+    X: 0,
+    O: 0,
+  });
 
-  const result = calculateWinner(squares);
+  const [round, setRound] = useState(1);
+
+  useEffect(() => {
+    const result = calculateWinner(squares);
+    if (result) {
+      setWinner(result.winner);
+    }
+  }, [squares]);
+
+  useEffect(() => {
+    if (winner) {
+      setScores((prevScores) => ({
+        ...prevScores,
+        [winner as 'X' | 'O']: prevScores[winner as 'X' | 'O'] + 1,
+      }));
+    }
+  }, [winner]);
   const handleClick = (index: number) => {
-    const newSquares = [...squares];
-    if (result || squares[index]) {
+    if (winner || squares[index]) {
       return;
     }
+    const newSquares = [...squares];
     newSquares[index] = isXNext ? 'X' : 'O';
     setSquares(newSquares);
     setIsXNext(!isXNext);
-
-    if (result) {
-      setWinnerInfo(result);
-    }
   };
 
-  let status;
-  const isDraw = squares.filter(Boolean).length === 9 && !winnerInfo.winner;
+  const turn = 'Turn: ' + (isXNext ? 'X' : 'O');
 
-  if (result) {
-    status = 'Winner: ' + result.winner;
-  } else if (isDraw) {
-    status = 'Draw';
+  let status;
+  if (winner) {
+    status = `${winner} Won!`;
   } else {
-    status = 'Next player: ' + (isXNext ? 'X' : 'O');
+    status = 'Draw';
   }
 
   const renderSquare = (key: number, styles?: Record<string, unknown>) => {
-    const highlight = result ? result.line.includes(key) : false;
+    const highlight = winner
+      ? calculateWinner(squares)?.line.includes(key)
+      : false;
     return (
       <BoardSquare
         value={squares[key]}
@@ -50,23 +67,49 @@ function Board() {
     );
   };
 
+  const {O, X} = scores;
+
+  const handleNextRound = () => {
+    setRound(round + 1);
+    setSquares(defaultSquares);
+    setWinner(null);
+    setIsXNext(true);
+  };
+
+  const router = useRouter();
+
+  const handleStop = () => {
+    router.push('/');
+  };
   return (
-    <Box>
-      <Typography fontSize={24}>{status}</Typography>
-      <Box display="flex">
-        {renderSquare(0, {borderTop: 'none', borderLeft: 'none'})}
-        {renderSquare(1, {borderTop: 'none'})}
-        {renderSquare(2, {borderTop: 0, borderRight: 'none'})}
-      </Box>
-      <Box display="flex">
-        {renderSquare(3, {borderLeft: 'none'})}
-        {renderSquare(4)}
-        {renderSquare(5, {borderRight: 'none'})}
-      </Box>
-      <Box display="flex">
-        {renderSquare(6, {borderLeft: 'none', borderBottom: 'none'})}
-        {renderSquare(7, {borderBottom: 'none'})}
-        {renderSquare(8, {borderBottom: 'none', borderRight: 'none'})}
+    <Box sx={{width: '100%'}}>
+      <Typography fontSize={24}>Player X Score: {X}</Typography>
+      <Typography fontSize={24}>Player O Score: {O}</Typography>
+      <Typography fontSize={24}>Round: {round}</Typography>
+      <Typography fontSize={24}>{turn}</Typography>
+      <Box>
+        <Box display="flex">
+          {renderSquare(0, {borderTop: 'none', borderLeft: 'none'})}
+          {renderSquare(1, {borderTop: 'none'})}
+          {renderSquare(2, {borderTop: 0, borderRight: 'none'})}
+        </Box>
+        <Box display="flex">
+          {renderSquare(3, {borderLeft: 'none'})}
+          {renderSquare(4)}
+          {renderSquare(5, {borderRight: 'none'})}
+        </Box>
+        <Box display="flex">
+          {renderSquare(6, {borderLeft: 'none', borderBottom: 'none'})}
+          {renderSquare(7, {borderBottom: 'none'})}
+          {renderSquare(8, {borderBottom: 'none', borderRight: 'none'})}
+        </Box>
+
+        <BoardAnnounceWinnerDialog
+          status={status}
+          winner={winner}
+          handleStop={handleStop}
+          handleNextRound={handleNextRound}
+        />
       </Box>
     </Box>
   );
