@@ -47,7 +47,13 @@ export default function BoardAnnounceWinnerDialog({
           },
         }}
       >
-        <DialogContent dividers>
+        <DialogContent
+          dividers
+          sx={{
+            bgcolor: 'secondary.main',
+            color: '#fff',
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
@@ -58,17 +64,21 @@ export default function BoardAnnounceWinnerDialog({
             }}
           >
             <Typography fontSize={36}>{status}</Typography>
-            <Typography fontSize={24}>Do you still want to proceed?</Typography>
+            <Typography fontSize={30} color="primary.main">
+              Do you still want to proceed?
+            </Typography>
             <Stack direction="row" spacing={1} sx={{mt: 2}}>
               <Stack>
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   sx={{
-                    bgcolor: '#95afc0',
                     minWidth: '100px',
                     color: 'secondary.light',
                     ':hover': {
-                      bgcolor: alpha('#95afc0', 0.9),
+                      bgcolor: alpha('#95a5a6', 0.9),
+                    },
+                    '&.MuiButton-root': {
+                      border: '1px solid #95a5a6',
                     },
                   }}
                   onClick={handleStop}
@@ -81,10 +91,10 @@ export default function BoardAnnounceWinnerDialog({
                   variant="contained"
                   onClick={handleNextRound}
                   sx={{
-                    bgcolor: '#333',
-                    color: '#fff',
+                    bgcolor: 'secondary.light',
+
                     ':hover': {
-                      bgcolor: alpha('#333', 0.9),
+                      bgcolor: alpha('#fff', 0.7),
                     },
                   }}
                 >

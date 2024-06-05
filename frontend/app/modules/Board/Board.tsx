@@ -15,6 +15,7 @@ function Board() {
     X: 0,
     O: 0,
   });
+  const [drawScores, setDrawScores] = useState(0);
 
   const [round, setRound] = useState(1);
 
@@ -33,6 +34,13 @@ function Board() {
       }));
     }
   }, [winner]);
+
+  const isDraw = !winner && squares.filter(Boolean).length === 9;
+  useEffect(() => {
+    if (isDraw) {
+      setDrawScores((prev) => prev + 1);
+    }
+  }, [isDraw]);
   const handleClick = (index: number) => {
     if (winner || squares[index]) {
       return;
@@ -46,13 +54,13 @@ function Board() {
   const turn = 'Turn: ' + (isXNext ? 'X' : 'O');
 
   let status;
-  const draw = !winner && squares.filter(Boolean).length === 9;
+
   if (winner) {
     status = `${winner} Won!`;
-  } else if (draw) {
-    status = 'Draw';
+  } else if (isDraw) {
+    status = 'Draw!';
   }
-  const isRoundFinished = !!winner || draw;
+  const isRoundFinished = !!winner || isDraw;
 
   const renderSquare = (key: number, styles?: Record<string, unknown>) => {
     const highlight = winner
@@ -87,6 +95,7 @@ function Board() {
     <Box sx={{width: '100%'}}>
       <Typography fontSize={24}>Player X Score: {X}</Typography>
       <Typography fontSize={24}>Player O Score: {O}</Typography>
+      <Typography fontSize={24}>Ties: {drawScores}</Typography>
       <Typography fontSize={24}>Round: {round}</Typography>
       <Typography fontSize={24}>{turn}</Typography>
       <Box>

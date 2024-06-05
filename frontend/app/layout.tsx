@@ -1,9 +1,14 @@
 import type {Metadata} from 'next';
-import {Inter} from 'next/font/google';
+import {Marhey} from 'next/font/google';
 import './globals.css';
 import AppThemeProvider from './ThemeProvider';
 
-const inter = Inter({subsets: ['latin']});
+const marhey = Marhey({
+  weight: ['400', '700'],
+  style: ['normal'],
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Tic Tac Toe',
@@ -17,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={marhey.className}>
         <AppThemeProvider>{children}</AppThemeProvider>
       </body>
     </html>

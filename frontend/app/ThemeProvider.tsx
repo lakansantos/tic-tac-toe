@@ -8,7 +8,7 @@ type ThemeWithProps = {
 const AppThemeProvider = ({children}: ThemeWithProps) => {
   const theme = createTheme({
     typography: {
-      fontFamily: 'nunato',
+      fontFamily: 'marhey',
     },
     breakpoints: {
       values: {
