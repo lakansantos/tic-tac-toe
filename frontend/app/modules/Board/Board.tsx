@@ -46,11 +46,13 @@ function Board() {
   const turn = 'Turn: ' + (isXNext ? 'X' : 'O');
 
   let status;
+  const draw = !winner && squares.filter(Boolean).length === 9;
   if (winner) {
     status = `${winner} Won!`;
-  } else {
+  } else if (draw) {
     status = 'Draw';
   }
+  const isRoundFinished = !!winner || draw;
 
   const renderSquare = (key: number, styles?: Record<string, unknown>) => {
     const highlight = winner
@@ -106,7 +108,7 @@ function Board() {
 
         <BoardAnnounceWinnerDialog
           status={status}
-          winner={winner}
+          isRoundFinished={isRoundFinished}
           handleStop={handleStop}
           handleNextRound={handleNextRound}
         />

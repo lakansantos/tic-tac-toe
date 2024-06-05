@@ -24,11 +24,11 @@ const AppThemeProvider = ({children}: ThemeWithProps) => {
         default: '#333',
       },
       primary: {
-        main: '#333',
-        light: '#fff',
+        main: '#9DECF9',
       },
       secondary: {
-        main: '#9DECF9',
+        main: '#333',
+        light: '#fff',
       },
       warning: {
         main: 'rgb(230, 126, 34)',

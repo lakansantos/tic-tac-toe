@@ -1,8 +1,14 @@
+'use client';
 import React from 'react';
 import {Box} from '@mui/material';
 import Board from 'modules/Board/Board';
+import {useSearchParams} from 'next/navigation';
 
 function TicTacToe() {
+  const searchParams = useSearchParams();
+  const message = searchParams.get('test');
+
+  console.log(message);
   return (
     <Box
       sx={{
@@ -11,7 +17,7 @@ function TicTacToe() {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        bgcolor: 'primary.main',
+        bgcolor: 'secondary.main',
         color: '#9DECF9',
       }}
     >

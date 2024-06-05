@@ -6,23 +6,23 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
 import Typography from '@mui/material/Typography';
-import {Box, Stack} from '@mui/material';
+import {Box, Stack, alpha} from '@mui/material';
 
 export default function BoardAnnounceWinnerDialog({
   status,
-  winner,
   handleStop,
   handleNextRound,
+  isRoundFinished,
 }: {
-  status: string;
-  winner: string | null;
+  status?: string;
+  isRoundFinished: boolean;
   handleStop: () => void;
   handleNextRound: () => void;
 }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (winner) {
+    if (isRoundFinished) {
       const timeoutId = setTimeout(() => {
         setOpen(true);
       }, 1000);
@@ -33,7 +33,7 @@ export default function BoardAnnounceWinnerDialog({
     } else {
       setOpen(false);
     }
-  }, [winner]);
+  }, [isRoundFinished]);
 
   return (
     <React.Fragment>
@@ -58,20 +58,39 @@ export default function BoardAnnounceWinnerDialog({
             }}
           >
             <Typography fontSize={36}>{status}</Typography>
-            <Stack direction="column" spacing={1}>
-              <Button
-                variant="contained"
-                sx={{
-                  bgcolor: '#e74c3c',
-                  minWidth: '240px',
-                }}
-                onClick={handleStop}
-              >
-                Stop
-              </Button>
-              <Button variant="contained" onClick={handleNextRound}>
-                Continue?
-              </Button>
+            <Typography fontSize={24}>Do you still want to proceed?</Typography>
+            <Stack direction="row" spacing={1} sx={{mt: 2}}>
+              <Stack>
+                <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: '#95afc0',
+                    minWidth: '100px',
+                    color: 'secondary.light',
+                    ':hover': {
+                      bgcolor: alpha('#95afc0', 0.9),
+                    },
+                  }}
+                  onClick={handleStop}
+                >
+                  Stop
+                </Button>
+              </Stack>
+              <Stack>
+                <Button
+                  variant="contained"
+                  onClick={handleNextRound}
+                  sx={{
+                    bgcolor: '#333',
+                    color: '#fff',
+                    ':hover': {
+                      bgcolor: alpha('#333', 0.9),
+                    },
+                  }}
+                >
+                  Continue?
+                </Button>
+              </Stack>
             </Stack>
           </Box>
         </DialogContent>
