@@ -55,7 +55,7 @@ function BoardPage() {
     setIsXNext(!isXNext);
   };
 
-  const turn = `${isXNext ? 'X' : 'O'} TURN`;
+  const turn = `${isXNext ? 'X' : 'O'}`;
 
   let status;
 
@@ -234,13 +234,14 @@ function BoardPage() {
             sx={{
               marginRight: 'auto',
             }}
+            gap={1}
             flex={1}
           >
             <Typography
               component="span"
               display="inline-block"
               color="primary.main"
-              fontSize={24}
+              fontSize={28}
             >
               X
             </Typography>
@@ -248,7 +249,7 @@ function BoardPage() {
               component="span"
               display="inline-block"
               color="#f1c40f"
-              fontSize={24}
+              fontSize={28}
             >
               O
             </Typography>
@@ -261,11 +262,23 @@ function BoardPage() {
             }}
           >
             <Typography
+              component="span"
+              display="inline-block"
               fontSize={24}
               sx={{
-                bgcolor: '#444',
-                borderRadius: 1,
-                p: 1,
+                py: 1,
+                px: 1,
+              }}
+            >
+              TURN
+            </Typography>
+            <Typography
+              component="span"
+              display="inline-block"
+              fontSize={24}
+              sx={{
+                color: isXNext ? 'primary.main' : '#f1c40f',
+                py: 1,
               }}
             >
               {turn}
