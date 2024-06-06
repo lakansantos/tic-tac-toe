@@ -10,6 +10,8 @@ const marhey = Marhey({
   display: 'swap',
 });
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: 'Tic Tac Toe',
   description: 'Tic tac toe game developed by Lakan Santos',
