@@ -1,14 +1,12 @@
-'use client';
 import React from 'react';
-import {Box, Button} from '@mui/material';
-import HomeStartDialog from 'modules/home/HomeStartDialog';
-import useHomeStart from 'modules/home/useHomeStart';
+import {Box} from '@mui/material';
+import HomeStart from 'modules/home/HomeStart';
+import useGetHomeGames from 'modules/home/useGetHomeGames';
 
-function Home() {
-  const {isOpen, setIsOpen} = useHomeStart();
+async function Home() {
+  const data = await useGetHomeGames();
 
-  const handleClose = () => setIsOpen(false);
-
+  console.log(data);
   return (
     <Box
       sx={{
@@ -21,16 +19,7 @@ function Home() {
         color: '#9DECF9',
       }}
     >
-      Home
-      <Button
-        variant="outlined"
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}
-      >
-        Start Game
-      </Button>
-      <HomeStartDialog open={isOpen} handleClose={handleClose} />
+      <HomeStart />
     </Box>
   );
 }
