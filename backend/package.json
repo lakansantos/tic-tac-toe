@@ -1,0 +1,30 @@
+{
+  "name": "tic-tac-toe-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server",
+    "dev": "nodemon",
+    "lint": "eslint **/*.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.2.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^6.3.0",
+    "mongoose": "^7.0.4"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@eslint/js": "^9.2.0",
+    "eslint": "^9.2.0",
+    "globals": "^15.1.0",
+    "nodemon": "^2.0.21"
+  },
+  "author": "Lakan Santos",
+  "license": "ISC"
+}
