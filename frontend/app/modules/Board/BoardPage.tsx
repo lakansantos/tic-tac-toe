@@ -1,7 +1,7 @@
 'use client';
 import React, {useEffect, useState} from 'react';
 import {alpha, Box, Button, Stack, Tooltip, Typography} from '@mui/material';
-import BoardSquare from 'modules/Board/BoardSquare';
+import BoardSquare from 'modules/board/BoardSquare';
 import calculateWinner from './boardCalculateWinner';
 import BoardAnnounceWinnerDialog from './BoardAnnounceWinnerDialog';
 

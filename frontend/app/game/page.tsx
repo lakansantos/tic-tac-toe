@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box} from '@mui/material';
-import BoardPage from 'modules/Board/BoardPage';
+import BoardPage from 'modules/board/BoardPage';
 
 function TicTacToe() {
   return (

@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
 import {Box, Button} from '@mui/material';
-import StartDialog from 'modules/start/StartDialog';
-import useStart from 'modules/start/useStart';
+import HomeStartDialog from 'modules/home/HomeStartDialog';
+import useHomeStart from 'modules/home/useHomeStart';
 
 function Home() {
-  const {isOpen, setIsOpen} = useStart();
+  const {isOpen, setIsOpen} = useHomeStart();
 
   const handleClose = () => setIsOpen(false);
 
@@ -30,7 +30,7 @@ function Home() {
       >
         Start Game
       </Button>
-      <StartDialog open={isOpen} handleClose={handleClose} />
+      <HomeStartDialog open={isOpen} handleClose={handleClose} />
     </Box>
   );
 }
