@@ -62,8 +62,10 @@ export default function BoardAnnounceWinnerDialog({
               flexDirection: 'column',
             }}
           >
-            <Typography fontSize={36}>{status}</Typography>
-            <Typography fontSize={24} color="primary.main">
+            <Typography fontSize={36} color="primary.main">
+              {status}
+            </Typography>
+            <Typography fontSize={24} color="#fff">
               Do you still want to proceed?
             </Typography>
             <Stack direction="row" spacing={1} sx={{mt: 2}}>
@@ -73,7 +75,7 @@ export default function BoardAnnounceWinnerDialog({
                   sx={{
                     minWidth: '100px',
                     color: '#fff',
-                    ':hover': {
+                    ':ho  ver': {
                       bgcolor: alpha('#95a5a6', 0.9),
                     },
                     '&.MuiButton-root': {

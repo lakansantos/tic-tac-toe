@@ -6,8 +6,11 @@ import calculateWinner from './boardCalculateWinner';
 import BoardAnnounceWinnerDialog from './BoardAnnounceWinnerDialog';
 
 import RefreshIcon from '@mui/icons-material/Refresh';
-import {useRouter} from 'next/navigation';
+import {useRouter, useSearchParams} from 'next/navigation';
 
+type Players = {
+  [key: string]: string;
+};
 function BoardPage() {
   const defaultSquares = Array(9).fill(null);
   const [squares, setSquares] = useState(defaultSquares);
@@ -37,7 +40,6 @@ function BoardPage() {
     }
   }, [winner]);
 
-  console.log(drawScores);
   const isDraw = !winner && squares.filter(Boolean).length === 9;
   useEffect(() => {
     if (isDraw) {
@@ -45,6 +47,20 @@ function BoardPage() {
     }
   }, [isDraw]);
 
+  const searchParams = useSearchParams();
+
+  // Convert searchParams to an object
+  const playersObj: Record<string, string> = {};
+  searchParams.forEach((value, key) => {
+    playersObj[key] = value;
+  });
+
+  const {player1Name, player2Name} = playersObj;
+
+  const players: Players = {
+    X: player1Name,
+    O: player2Name,
+  };
   const handleClick = (index: number) => {
     if (winner || squares[index]) {
       return;
@@ -60,7 +76,7 @@ function BoardPage() {
   let status;
 
   if (winner) {
-    status = `${winner} Won!`;
+    status = `${players[winner]} (${winner}) Has Won!`;
   } else if (isDraw) {
     status = 'Draw!';
   }
@@ -88,8 +104,6 @@ function BoardPage() {
     setIsXNext(true);
   };
 
-  const router = useRouter();
-
   const handleRefresh = () => {
     setRound(1);
     setIsXNext(true);
@@ -98,6 +112,7 @@ function BoardPage() {
     setSquares(defaultSquares);
   };
 
+  const router = useRouter();
   const handleStop = () => {
     router.push('/');
   };
@@ -108,7 +123,7 @@ function BoardPage() {
         width: '100%',
         height: '100%',
         display: 'flex',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-around',
         alignItems: 'center',
         flexDirection: 'column',
       }}
@@ -147,12 +162,12 @@ function BoardPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                bgcolor: 'primary.main',
+                bgcolor: '#fff',
                 py: 2,
                 borderRadius: '4px 0 0 4px',
               }}
             >
-              <Typography>Player 1</Typography>
+              <Typography>{player1Name}</Typography>
             </Box>
             <Box
               sx={{
@@ -160,7 +175,7 @@ function BoardPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                bgcolor: '#fff',
+                bgcolor: 'primary.main',
                 color: '#000',
                 borderRadius: '0 4px 4px 0',
               }}
@@ -189,12 +204,12 @@ function BoardPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                bgcolor: 'primary.main',
+                bgcolor: '#fff',
                 py: 2,
                 borderRadius: '0 4px 4px 0',
               }}
             >
-              <Typography>Player 2</Typography>
+              <Typography>{player2Name}</Typography>
             </Box>
             <Box
               sx={{
@@ -202,7 +217,7 @@ function BoardPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                bgcolor: '#fff',
+                bgcolor: 'primary.main',
                 color: '#000',
                 borderRadius: '4px 0 0 4px',
               }}
@@ -221,6 +236,14 @@ function BoardPage() {
           flexDirection: 'column',
         }}
       >
+        <Box
+          sx={{
+            width: '100%',
+            color: '#fff',
+          }}
+        >
+          Ties: {drawScores}
+        </Box>
         <Box
           flexDirection="row"
           alignItems="center"
@@ -309,7 +332,6 @@ function BoardPage() {
             </Tooltip>
           </Box>
         </Box>
-
         <Box display="flex">
           {renderSquare(0, {borderTop: 'none', borderLeft: 'none'})}
           {renderSquare(1, {borderTop: 'none'})}
@@ -325,7 +347,6 @@ function BoardPage() {
           {renderSquare(7, {borderBottom: 'none'})}
           {renderSquare(8, {borderBottom: 'none', borderRight: 'none'})}
         </Box>
-
         <BoardAnnounceWinnerDialog
           status={status}
           isRoundFinished={isRoundFinished}

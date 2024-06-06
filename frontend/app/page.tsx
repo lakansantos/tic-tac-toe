@@ -1,20 +1,13 @@
 'use client';
 import React from 'react';
 import {Box, Button} from '@mui/material';
-import {useRouter} from 'next/navigation';
 import StartDialog from 'modules/start/StartDialog';
 import useStart from 'modules/start/useStart';
 
 function Home() {
-  const router = useRouter();
-
   const {isOpen, setIsOpen} = useStart();
 
   const handleClose = () => setIsOpen(false);
-
-  const handleStart = () => {
-    router.push('/game');
-  };
 
   return (
     <Box
@@ -35,13 +28,9 @@ function Home() {
           setIsOpen(!isOpen);
         }}
       >
-        Start
+        Start Game
       </Button>
-      <StartDialog
-        open={isOpen}
-        handleClose={handleClose}
-        handleStart={handleStart}
-      />
+      <StartDialog open={isOpen} handleClose={handleClose} />
     </Box>
   );
 }
