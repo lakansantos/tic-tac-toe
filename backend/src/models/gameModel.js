@@ -3,30 +3,30 @@ import mongoose, { Schema } from 'mongoose';
 
 const gameSchema = new Schema(
   {
-    player1_name: {
-      type: String,
-      required: true,
-    },
-    player2_name: {
-      type: String,
-      required: true,
-    },
-    scores: {
-      player1_score: {
-        type: Number,
-        required: true,
+    players: {
+      player1: {
+        name: {
+          type: String,
+          required: true,
+        },
+        score: {
+          type: Number,
+          required: true,
+        },
       },
-      player2_score: {
-        type: Number,
-        required: true,
+      player2: {
+        name: {
+          type: String,
+          required: true,
+        },
+        score: {
+          type: Number,
+          required: true,
+        },
       },
     },
     draw_count: {
       type: Number,
-      required: true,
-    },
-    game_room_name: {
-      type: String,
       required: true,
     },
     game_id: {

@@ -49,6 +49,7 @@ const getGameController = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
+      error,
       message: 'Server internal error',
     });
   }
