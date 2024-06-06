@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box} from '@mui/material';
-import Board from 'modules/Board/Board';
+import BoardPage from 'modules/Board/BoardPage';
 
 function TicTacToe() {
   return (
@@ -15,9 +15,7 @@ function TicTacToe() {
         color: '#9DECF9',
       }}
     >
-      <Box sx={{mt: 2}}>
-        <Board />
-      </Box>
+      <BoardPage />
     </Box>
   );
 }

@@ -1,4 +1,4 @@
-import {Button} from '@mui/material';
+import {alpha, Button} from '@mui/material';
 import React from 'react';
 
 function BoardSquare({
@@ -21,12 +21,19 @@ function BoardSquare({
         bgcolor: highlight ? 'primary.main' : 'secondary.main', // Highlight color for winner
         border: '1px solid #fff',
         display: 'flex',
-        fontSize: '24px',
-        color: highlight ? 'secondary.main' : 'secondary.light',
+        fontSize: 70,
+        fontWeight: '600',
+        color: highlight
+          ? '#000'
+          : value === 'X'
+            ? 'primary.main'
+            : value === 'O'
+              ? '#f1c40f'
+              : '#fff',
         cursor: 'pointer',
         borderRadius: 0,
         ':hover': {
-          bgcolor: highlight ? 'primary.main' : 'secondary.light',
+          bgcolor: highlight ? 'primary.main' : alpha('#fff', 0.3),
           color: '#000',
         },
         ...styles,

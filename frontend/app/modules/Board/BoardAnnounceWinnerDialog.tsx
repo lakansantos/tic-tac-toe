@@ -25,7 +25,7 @@ export default function BoardAnnounceWinnerDialog({
     if (isRoundFinished) {
       const timeoutId = setTimeout(() => {
         setOpen(true);
-      }, 1000);
+      }, 500);
 
       return () => {
         clearTimeout(timeoutId);
@@ -38,7 +38,6 @@ export default function BoardAnnounceWinnerDialog({
   return (
     <React.Fragment>
       <Dialog
-        aria-labelledby="customized-dialog-title"
         open={open}
         sx={{
           '& .MuiDialogContent-root': {
@@ -64,7 +63,7 @@ export default function BoardAnnounceWinnerDialog({
             }}
           >
             <Typography fontSize={36}>{status}</Typography>
-            <Typography fontSize={30} color="primary.main">
+            <Typography fontSize={24} color="primary.main">
               Do you still want to proceed?
             </Typography>
             <Stack direction="row" spacing={1} sx={{mt: 2}}>
@@ -73,7 +72,7 @@ export default function BoardAnnounceWinnerDialog({
                   variant="outlined"
                   sx={{
                     minWidth: '100px',
-                    color: 'secondary.light',
+                    color: '#fff',
                     ':hover': {
                       bgcolor: alpha('#95a5a6', 0.9),
                     },
@@ -91,7 +90,7 @@ export default function BoardAnnounceWinnerDialog({
                   variant="contained"
                   onClick={handleNextRound}
                   sx={{
-                    bgcolor: 'secondary.light',
+                    bgcolor: '#fff',
 
                     ':hover': {
                       bgcolor: alpha('#fff', 0.7),

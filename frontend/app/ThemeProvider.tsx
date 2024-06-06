@@ -8,7 +8,7 @@ type ThemeWithProps = {
 const AppThemeProvider = ({children}: ThemeWithProps) => {
   const theme = createTheme({
     typography: {
-      fontFamily: 'marhey',
+      fontFamily: '"Marhey", "Arial", sans-serif',
     },
     breakpoints: {
       values: {
@@ -28,7 +28,7 @@ const AppThemeProvider = ({children}: ThemeWithProps) => {
       },
       secondary: {
         main: '#333',
-        light: '#fff',
+        light: '#504f4f',
       },
       warning: {
         main: 'rgb(230, 126, 34)',
