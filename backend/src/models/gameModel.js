@@ -46,6 +46,7 @@ const gameSchema = new Schema(
   },
 );
 
+gameSchema.index({ game_id: 'text' });
 const Game =
   mongoose.models.Game || mongoose.model('Game', gameSchema);
 
