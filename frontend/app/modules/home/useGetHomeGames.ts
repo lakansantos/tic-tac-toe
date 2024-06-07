@@ -11,7 +11,8 @@ type ApiResponse = {
 const useGetHomeGames = async (searchParams: {offset: number}) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/all-games?${queryStringify(searchParams)}`
+      `${BASE_URL}/all-games?${queryStringify(searchParams)}`,
+      {cache: 'no-store'}
     );
 
     const metadata: ApiResponse = await response.json();

@@ -4,9 +4,13 @@ import {Games} from 'app/types/game/gameType';
 import React from 'react';
 
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+
 import HomeMatchHistoryPagination from './HomeMatchHistoryPagination';
 
+import VideogameAssetOffIcon from '@mui/icons-material/VideogameAssetOff';
+
+import HomeMatchOtherDetails from './HomeMatchOtherDetails';
+import HomeMatchScoreDetails from './HomeMatchScoreDetails';
 const HomeMatchHistory = ({
   data,
   meta,
@@ -64,9 +68,33 @@ const HomeMatchHistory = ({
         }}
       >
         {(data || []).map((game) => {
-          const {game_id, players, draw_count, created_at} = game || {};
+          const {
+            game_id,
+            players,
+            winner,
+            draw_count,
+            rounds_count,
+            created_at,
+          } = game || {};
           const {player1, player2} = players || {};
 
+          const scoreDetails = {
+            players,
+            winner,
+          };
+          const otherDetails = {
+            draw_count,
+            rounds_count,
+            created_at,
+          };
+
+          let status;
+
+          if (winner === 'draw') {
+            status = 'Draw!';
+          } else {
+            status = `${winner} Won!`;
+          }
           return (
             <Box
               key={game_id}
@@ -79,15 +107,55 @@ const HomeMatchHistory = ({
             >
               <Box
                 sx={{
-                  height: '150px',
+                  height: 'fit-content',
+                  display: 'flex',
+                  minHeight: '150px',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'column',
                 }}
               >
-                <p>Created at: {created_at}</p>
-                <p>Player 1 name: {player1?.name}</p>
-                <p>Player 2 name: {player2?.name}</p>
-                <p>Player 1 Score: {player1?.score} </p>
-                <p>Player 1 Score: {player2?.score} </p>
-                <p>Draws: {draw_count} </p>
+                {status}
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      marginLeft: 'auto',
+                      flex: 1,
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Typography fontSize={70}>{player1.score}</Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      flex: 1,
+                    }}
+                  >
+                    <HomeMatchScoreDetails {...scoreDetails} />
+                    <HomeMatchOtherDetails {...otherDetails} />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flex: 1,
+                      justifyContent: 'center',
+                      marginRight: 'auto',
+                    }}
+                  >
+                    <Typography fontSize={70}>{player2.score}</Typography>
+                  </Box>
+                </Box>
               </Box>
               <Divider
                 sx={{
@@ -108,23 +176,30 @@ const HomeMatchHistory = ({
               gap: 1,
             }}
           >
-            <SportsEsportsIcon />
+            <VideogameAssetOffIcon />
             No games data yet.
           </Box>
         )}
       </Box>
-      {meta && (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            height: 50,
-            bgcolor: 'secondary.light',
-          }}
-        >
-          <HomeMatchHistoryPagination meta={meta} />
-        </Box>
+      {data && data.length > 0 && meta && (
+        <>
+          <Divider
+            sx={{
+              bgcolor: alpha('#fff', 0.2),
+            }}
+          />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              height: 50,
+              bgcolor: 'secondary.light',
+            }}
+          >
+            <HomeMatchHistoryPagination meta={meta} />
+          </Box>
+        </>
       )}
     </Box>
   );

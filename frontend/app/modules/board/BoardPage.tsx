@@ -138,6 +138,7 @@ function BoardPage() {
         score: scores.O,
       },
     },
+    rounds_count: round,
     draw_count: drawScores,
     winner: gameWinner,
   };

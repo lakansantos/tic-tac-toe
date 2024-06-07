@@ -2,11 +2,12 @@ import Game from '../../models/gameModel.js';
 import { validationErrorMessageMapper } from '../../utils/string.js';
 const saveGameController = async (req, res) => {
   try {
-    const { players, draw_count, winner } = req.body;
+    const { players, draw_count, winner, rounds_count } = req.body;
     const newGame = new Game({
       players,
       draw_count,
       winner,
+      rounds_count,
     });
 
     await newGame.save();

@@ -13,6 +13,7 @@ export type Game = {
   winner: string;
   game_id: string;
   created_at: string;
+  rounds_count: number;
 };
 
 export type Games = Game[];
