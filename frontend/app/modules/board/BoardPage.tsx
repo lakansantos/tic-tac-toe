@@ -8,6 +8,9 @@ import BoardAnnounceWinnerDialog from './BoardAnnounceWinnerDialog';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {useRouter, useSearchParams} from 'next/navigation';
 
+import {Game} from 'app/types/game/gameType';
+import boardSaveGame from './useBoardSaveGame';
+
 type Players = {
   [key: string]: string;
 };
@@ -113,8 +116,35 @@ function BoardPage() {
   };
 
   const router = useRouter();
-  const handleStop = () => {
+
+  let gameWinner;
+
+  if (scores.X > scores.O) {
+    gameWinner = player1Name;
+  } else if (scores.X < scores.O) {
+    gameWinner = player2Name;
+  } else {
+    gameWinner = 'draw';
+  }
+
+  const gameData = {
+    players: {
+      player1: {
+        name: player1Name,
+        score: scores.X,
+      },
+      player2: {
+        name: player2Name,
+        score: scores.O,
+      },
+    },
+    draw_count: drawScores,
+    winner: gameWinner,
+  };
+  const handleStop = async () => {
+    await boardSaveGame(gameData as Game);
     router.push('/');
+    router.refresh();
   };
 
   return (
@@ -123,7 +153,7 @@ function BoardPage() {
         width: '100%',
         height: '100%',
         display: 'flex',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
       }}
