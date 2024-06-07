@@ -189,6 +189,10 @@ function BoardPage() {
         }}
       >
         <Typography fontSize={36}>Round {round}</Typography>
+        <Typography fontSize={24} color="#fff">
+          {' '}
+          Ties: {drawScores}
+        </Typography>
         <Stack
           sx={{
             width: '80%',
@@ -231,7 +235,9 @@ function BoardPage() {
                 borderRadius: '0 4px 4px 0',
               }}
             >
-              <Typography>{scores.X}</Typography>
+              <Typography fontSize={36} mt={0.5}>
+                {scores.X}
+              </Typography>
             </Box>
           </Box>
           <Box sx={{mt: 2}}>
@@ -273,7 +279,9 @@ function BoardPage() {
                 borderRadius: '4px 0 0 4px',
               }}
             >
-              <Typography>{scores.O}</Typography>
+              <Typography fontSize={36} mt={0.5}>
+                {scores.O}
+              </Typography>
             </Box>
           </Box>
         </Stack>
@@ -287,14 +295,6 @@ function BoardPage() {
           flexDirection: 'column',
         }}
       >
-        <Box
-          sx={{
-            width: '100%',
-            color: '#fff',
-          }}
-        >
-          Ties: {drawScores}
-        </Box>
         <Box
           flexDirection="row"
           alignItems="center"
