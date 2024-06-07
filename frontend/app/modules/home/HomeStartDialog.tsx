@@ -33,7 +33,7 @@ export default function StartDialog({
     router.push('/game' + '?' + playersStringify);
   };
 
-  const isStartButtonDisabled = !(player1Name && player2Name);
+  const isStartButtonDisabled = !(player1Name.trim() && player2Name.trim());
 
   return (
     <Dialog onClose={handleClose} open={open}>
