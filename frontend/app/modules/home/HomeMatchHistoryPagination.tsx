@@ -8,11 +8,8 @@ import React from 'react';
 const HomeMatchHistoryPagination = ({meta}: {meta: Meta | undefined}) => {
   const searchParams = useSearchParams();
 
-  const {offset, total_pages} = meta || {};
+  const {total_pages} = meta || {};
   const page = Number(searchParams.get('offset')) || 0;
-
-  console.log(offset);
-  console.log(page);
 
   return (
     <Pagination
@@ -21,11 +18,12 @@ const HomeMatchHistoryPagination = ({meta}: {meta: Meta | undefined}) => {
       color="primary"
       variant="outlined"
       renderItem={(item) => {
-        console.log(item.page);
         return (
-          <Link href={item.page ? `/?offset=${item.page - 1}` : ''}>
-            <PaginationItem {...item} />
-          </Link>
+          <PaginationItem
+            component={Link}
+            href={item.page ? `/?offset=${item.page - 1}` : ''}
+            {...item}
+          />
         );
       }}
       sx={{

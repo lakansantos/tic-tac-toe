@@ -5,6 +5,7 @@ import {useState} from 'react';
 const useBoardSaveGame = () => {
   const [isGameSaving, setIsGameSaving] = useState<boolean | null>(null);
   const [isSaved, setIsSaved] = useState<boolean | null>(false);
+
   const saveGame = async (gameData: Game) => {
     setIsGameSaving(true);
     try {

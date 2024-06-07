@@ -113,7 +113,7 @@ const HomeMatchHistory = ({
           </Box>
         )}
       </Box>
-      {data && data.length > 0 && meta && (
+      {meta && (
         <Box
           sx={{
             display: 'flex',

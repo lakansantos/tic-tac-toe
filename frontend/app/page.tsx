@@ -5,8 +5,8 @@ import useGetHomeGames from 'modules/home/useGetHomeGames';
 
 import HomeMatchHistory from 'modules/home/HomeMatchHistory';
 
-async function Home() {
-  const response = await useGetHomeGames();
+async function Home({searchParams}: {searchParams: {offset: number}}) {
+  const response = await useGetHomeGames(searchParams);
 
   const {data = [], meta} = response ?? {};
 

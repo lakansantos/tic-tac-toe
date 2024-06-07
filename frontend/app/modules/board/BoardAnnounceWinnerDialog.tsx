@@ -91,7 +91,7 @@ export default function BoardAnnounceWinnerDialog({
               <CheckCircleIcon
                 sx={{
                   fontSize: 72,
-                  color: '#2ecc71',
+                  color: 'primary.main',
                 }}
               />
               <Typography fontSize={30}>Game saved!</Typography>
