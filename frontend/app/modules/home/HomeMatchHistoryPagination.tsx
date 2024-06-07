@@ -1,3 +1,4 @@
+'use client';
 import {alpha, Pagination, PaginationItem} from '@mui/material';
 import Link from 'next/link';
 import {useSearchParams} from 'next/navigation';

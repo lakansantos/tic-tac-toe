@@ -64,8 +64,8 @@ const HomeMatchHistory = ({
         }}
       >
         {(data || []).map((game) => {
-          const {game_id, players, draw_count, created_at} = game;
-          const {player1, player2} = players;
+          const {game_id, players, draw_count, created_at} = game || {};
+          const {player1, player2} = players || {};
 
           return (
             <Box
@@ -83,9 +83,11 @@ const HomeMatchHistory = ({
                 }}
               >
                 <p>Created at: {created_at}</p>
-                <p>Player 1 name: {player1.name}</p>
-                <p>Player 2 name: {player2.name}</p>
-                <p>Player 1 Score: {player1.score} </p>
+                <p>Player 1 name: {player1?.name}</p>
+                <p>Player 2 name: {player2?.name}</p>
+                <p>Player 1 Score: {player1?.score} </p>
+                <p>Player 1 Score: {player2?.score} </p>
+                <p>Draws: {draw_count} </p>
               </Box>
               <Divider
                 sx={{
@@ -111,17 +113,19 @@ const HomeMatchHistory = ({
           </Box>
         )}
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          height: 50,
-          bgcolor: 'secondary.light',
-        }}
-      >
-        <HomeMatchHistoryPagination meta={meta} />
-      </Box>
+      {data && data.length > 0 && meta && (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            height: 50,
+            bgcolor: 'secondary.light',
+          }}
+        >
+          <HomeMatchHistoryPagination meta={meta} />
+        </Box>
+      )}
     </Box>
   );
 };

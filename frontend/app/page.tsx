@@ -8,7 +8,7 @@ import HomeMatchHistory from 'modules/home/HomeMatchHistory';
 async function Home() {
   const response = await useGetHomeGames();
 
-  const {data, meta} = response ?? {};
+  const {data = [], meta} = response ?? {};
 
   return (
     <Box

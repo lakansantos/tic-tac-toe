@@ -9,7 +9,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import {useRouter, useSearchParams} from 'next/navigation';
 
 import {Game} from 'app/types/game/gameType';
-import boardSaveGame from './useBoardSaveGame';
+import useBoardSaveGame from './useBoardSaveGame';
 
 type Players = {
   [key: string]: string;
@@ -141,11 +141,31 @@ function BoardPage() {
     draw_count: drawScores,
     winner: gameWinner,
   };
+
+  const {isSaved, isGameSaving, saveGame} = useBoardSaveGame();
   const handleStop = async () => {
-    await boardSaveGame(gameData as Game);
-    router.push('/');
-    router.refresh();
+    await saveGame(gameData as Game);
   };
+
+  const [timer, setTimer] = useState(3); // 3 seconds
+  useEffect(() => {
+    let interval: NodeJS.Timeout | undefined;
+    if (isSaved && !isGameSaving) {
+      interval = setInterval(() => {
+        setTimer((prev) => {
+          if (prev === 1) {
+            clearInterval(interval); // Clear the interval when the timer reaches 1
+            router.push('/');
+            router.refresh();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000); // Update every second
+
+      return () => clearInterval(interval); // Cleanup interval on unmount
+    }
+  }, [isSaved, isGameSaving, router]);
 
   return (
     <Box
@@ -382,6 +402,9 @@ function BoardPage() {
           isRoundFinished={isRoundFinished}
           handleStop={handleStop}
           handleNextRound={handleNextRound}
+          isGameSaving={isGameSaving}
+          isSaved={isSaved}
+          timer={timer}
         />
       </Box>
     </Box>
