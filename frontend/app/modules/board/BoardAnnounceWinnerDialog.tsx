@@ -7,9 +7,11 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
 import Typography from '@mui/material/Typography';
-import {Box, CircularProgress, Stack, alpha} from '@mui/material';
+import {Box, CircularProgress, IconButton, Stack, alpha} from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {useRouter} from 'next/navigation';
+import ErrorIcon from '@mui/icons-material/Error';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function BoardAnnounceWinnerDialog({
   status,
@@ -19,6 +21,7 @@ export default function BoardAnnounceWinnerDialog({
   isGameSaving,
   isSaved,
   timer,
+  errorMessage,
 }: {
   status?: string;
   isRoundFinished: boolean;
@@ -27,6 +30,7 @@ export default function BoardAnnounceWinnerDialog({
   handleNextRound: () => void;
   isSaved: boolean | null;
   timer: number;
+  errorMessage: string | null;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -45,6 +49,7 @@ export default function BoardAnnounceWinnerDialog({
   }, [isRoundFinished]);
 
   const router = useRouter();
+
   return (
     <React.Fragment>
       <Dialog
@@ -57,6 +62,21 @@ export default function BoardAnnounceWinnerDialog({
           },
         }}
       >
+        {errorMessage !== null && (
+          <IconButton
+            aria-label="close"
+            onClick={() => setOpen(false)}
+            sx={{
+              color: 'primary.main',
+              position: 'absolute',
+              right: 8,
+              top: 8,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        )}
+
         <DialogContent
           dividers
           sx={{
@@ -104,6 +124,28 @@ export default function BoardAnnounceWinnerDialog({
                 }}
               >
                 Go Home
+              </Button>
+            </Box>
+          ) : errorMessage ? (
+            <Box
+              sx={{
+                display: 'flex',
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                gap: 2,
+              }}
+            >
+              <ErrorIcon
+                sx={{
+                  fontSize: 72,
+                  color: '#e74c3c',
+                }}
+              />
+              <Typography fontSize={30}>{errorMessage}</Typography>
+              <Button variant="contained" onClick={handleStop}>
+                Try again
               </Button>
             </Box>
           ) : (

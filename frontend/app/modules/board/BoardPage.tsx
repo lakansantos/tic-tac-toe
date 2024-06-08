@@ -143,15 +143,16 @@ function BoardPage() {
     winner: gameWinner,
   };
 
-  const {isSaved, isGameSaving, saveGame} = useBoardSaveGame();
+  const {isSaved, isGameSaving, saveGame, errorMessage} = useBoardSaveGame();
   const handleStop = async () => {
     await saveGame(gameData as Game);
   };
 
   const [timer, setTimer] = useState(3); // 3 seconds
+
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined;
-    if (isSaved && !isGameSaving) {
+    if (isSaved && !isGameSaving && errorMessage !== null) {
       interval = setInterval(() => {
         setTimer((prev) => {
           if (prev === 1) {
@@ -166,7 +167,7 @@ function BoardPage() {
 
       return () => clearInterval(interval); // Cleanup interval on unmount
     }
-  }, [isSaved, isGameSaving, router]);
+  }, [isSaved, isGameSaving, router, errorMessage]);
 
   return (
     <Box
@@ -406,6 +407,7 @@ function BoardPage() {
           isGameSaving={isGameSaving}
           isSaved={isSaved}
           timer={timer}
+          errorMessage={errorMessage}
         />
       </Box>
     </Box>
