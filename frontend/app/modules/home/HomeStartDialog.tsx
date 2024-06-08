@@ -33,7 +33,7 @@ export default function StartDialog({
     router.push('/game' + '?' + playersStringify);
   };
 
-  const isStartButtonDisabled = !(player1Name && player2Name);
+  const isStartButtonDisabled = !(player1Name.trim() && player2Name.trim());
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -62,13 +62,13 @@ export default function StartDialog({
             required
             label="Player 1"
             value={player1Name}
-            onChange={(e) => setPlayer1Name(e.target.value.trim())}
+            onChange={(e) => setPlayer1Name(e.target.value)}
           />
           <TextField
             required
             label="Player 2"
             value={player2Name}
-            onChange={(e) => setPlayer2Name(e.target.value.trim())}
+            onChange={(e) => setPlayer2Name(e.target.value)}
           />
 
           <DialogActions>

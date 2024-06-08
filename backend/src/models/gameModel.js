@@ -25,9 +25,14 @@ const gameSchema = new Schema(
         },
       },
     },
+    rounds_count: {
+      type: Number,
+      required: true,
+    },
     draw_count: {
       type: Number,
       required: true,
+      default: 0,
     },
     game_id: {
       type: String,
@@ -46,6 +51,7 @@ const gameSchema = new Schema(
   },
 );
 
+gameSchema.index({ game_id: 'text' });
 const Game =
   mongoose.models.Game || mongoose.model('Game', gameSchema);
 

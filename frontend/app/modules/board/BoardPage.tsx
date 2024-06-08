@@ -8,6 +8,9 @@ import BoardAnnounceWinnerDialog from './BoardAnnounceWinnerDialog';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {useRouter, useSearchParams} from 'next/navigation';
 
+import {Game} from 'app/types/game/gameType';
+import useBoardSaveGame from './useBoardSaveGame';
+
 type Players = {
   [key: string]: string;
 };
@@ -113,9 +116,58 @@ function BoardPage() {
   };
 
   const router = useRouter();
-  const handleStop = () => {
-    router.push('/');
+
+  let gameWinner;
+
+  if (scores.X > scores.O) {
+    gameWinner = player1Name;
+  } else if (scores.X < scores.O) {
+    gameWinner = player2Name;
+  } else {
+    gameWinner = 'draw';
+  }
+
+  const gameData = {
+    players: {
+      player1: {
+        name: player1Name,
+        score: scores.X,
+      },
+      player2: {
+        name: player2Name,
+        score: scores.O,
+      },
+    },
+    rounds_count: round,
+    draw_count: drawScores,
+    winner: gameWinner,
   };
+
+  const {isSaved, isGameSaving, saveGame, errorMessage} = useBoardSaveGame();
+  const handleStop = async () => {
+    await saveGame(gameData as Game);
+  };
+
+  const [timer, setTimer] = useState(3); // 3 seconds
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout | undefined;
+    if (isSaved && !isGameSaving && errorMessage !== null) {
+      interval = setInterval(() => {
+        setTimer((prev) => {
+          if (prev === 1) {
+            clearInterval(interval); // Clear the interval when the timer reaches 1
+            router.push('/');
+            router.refresh();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000); // Update every second
+
+      return () => clearInterval(interval); // Cleanup interval on unmount
+    }
+  }, [isSaved, isGameSaving, router, errorMessage]);
 
   return (
     <Box
@@ -123,7 +175,7 @@ function BoardPage() {
         width: '100%',
         height: '100%',
         display: 'flex',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
       }}
@@ -138,6 +190,10 @@ function BoardPage() {
         }}
       >
         <Typography fontSize={36}>Round {round}</Typography>
+        <Typography fontSize={24} color="#fff">
+          {' '}
+          Ties: {drawScores}
+        </Typography>
         <Stack
           sx={{
             width: '80%',
@@ -180,7 +236,9 @@ function BoardPage() {
                 borderRadius: '0 4px 4px 0',
               }}
             >
-              <Typography>{scores.X}</Typography>
+              <Typography fontSize={36} mt={0.5}>
+                {scores.X}
+              </Typography>
             </Box>
           </Box>
           <Box sx={{mt: 2}}>
@@ -222,7 +280,9 @@ function BoardPage() {
                 borderRadius: '4px 0 0 4px',
               }}
             >
-              <Typography>{scores.O}</Typography>
+              <Typography fontSize={36} mt={0.5}>
+                {scores.O}
+              </Typography>
             </Box>
           </Box>
         </Stack>
@@ -236,14 +296,6 @@ function BoardPage() {
           flexDirection: 'column',
         }}
       >
-        <Box
-          sx={{
-            width: '100%',
-            color: '#fff',
-          }}
-        >
-          Ties: {drawScores}
-        </Box>
         <Box
           flexDirection="row"
           alignItems="center"
@@ -352,6 +404,10 @@ function BoardPage() {
           isRoundFinished={isRoundFinished}
           handleStop={handleStop}
           handleNextRound={handleNextRound}
+          isGameSaving={isGameSaving}
+          isSaved={isSaved}
+          timer={timer}
+          errorMessage={errorMessage}
         />
       </Box>
     </Box>
