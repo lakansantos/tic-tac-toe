@@ -14,6 +14,8 @@ import HomeMatchScoreDetails from './HomeMatchScoreDetails';
 
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import useCopy from 'app/hooks/useCopy';
+import {useSearchParams} from 'next/navigation';
+
 const HomeMatchHistory = ({
   data,
   meta,
@@ -22,6 +24,10 @@ const HomeMatchHistory = ({
   meta?: Meta | undefined;
 }) => {
   const {copied, onCopy} = useCopy();
+
+  const searchParams = useSearchParams();
+  const search = searchParams.get('search');
+
   return (
     <Box
       sx={{
@@ -230,7 +236,7 @@ const HomeMatchHistory = ({
           </Box>
         )}
       </Box>
-      {data && data.length > 0 && meta && (
+      {!search && data && data.length > 0 && meta && (
         <>
           <Divider
             sx={{
