@@ -5,7 +5,7 @@ const getGameController = async (req, res) => {
     const { search, limit = 5, offset = 0 } = req.query;
 
     const query = search
-      ? { game_id: { $regex: new RegExp(search, 'i') } }
+      ? { game_id: { $regex: new RegExp(search) } }
       : {};
 
     const _limit = parseInt(limit);

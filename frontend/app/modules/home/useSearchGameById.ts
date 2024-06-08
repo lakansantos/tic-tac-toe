@@ -2,14 +2,12 @@ import {useRouter, useSearchParams} from 'next/navigation';
 import {SyntheticEvent, useState} from 'react';
 
 const useSearchGameById = () => {
-  const [searchedValue, setSearchedValue] = useState('');
+  const searchParams = useSearchParams();
+  const searchedDefaultValue = searchParams.get('search') || '';
+
+  const [searchedValue, setSearchedValue] = useState(searchedDefaultValue);
 
   const router = useRouter();
-
-  const searchParams = useSearchParams();
-  const searchedDefaultValue = searchedValue
-    ? searchedValue
-    : searchParams.get('search');
 
   const onSearch = (e: SyntheticEvent) => {
     e.preventDefault();

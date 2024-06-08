@@ -11,8 +11,7 @@ import useSearchGameById from './useSearchGameById';
 const HomeStart = () => {
   const {isOpen, setIsOpen} = useHomeStart();
 
-  const {searchedDefaultValue, setSearchedValue, onSearch} =
-    useSearchGameById();
+  const {searchedValue, setSearchedValue, onSearch} = useSearchGameById();
   const handleClose = () => setIsOpen(false);
 
   return (
@@ -26,12 +25,12 @@ const HomeStart = () => {
       <Stack direction="row" gap={1} component="form" onSubmit={onSearch}>
         <TextField
           variant="outlined"
-          label="Search by game id"
-          value={searchedDefaultValue || ''}
+          label="Search game id"
+          value={searchedValue}
           onChange={(e) => setSearchedValue(e.target.value)}
           sx={{
             '& .MuiInputLabel-root': {
-              color: '#fff', // Set the label color
+              color: '#d5d5d5',
             },
             '& .MuiOutlinedInput-root': {
               color: '#fff',
