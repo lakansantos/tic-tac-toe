@@ -1,5 +1,5 @@
 'use client';
-import {alpha, Box, Divider, Typography} from '@mui/material';
+import {alpha, Box, Divider, Tooltip, Typography} from '@mui/material';
 import {Games} from 'app/types/game/gameType';
 import React from 'react';
 
@@ -11,6 +11,9 @@ import VideogameAssetOffIcon from '@mui/icons-material/VideogameAssetOff';
 
 import HomeMatchOtherDetails from './HomeMatchOtherDetails';
 import HomeMatchScoreDetails from './HomeMatchScoreDetails';
+
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import useCopy from 'app/hooks/useCopy';
 const HomeMatchHistory = ({
   data,
   meta,
@@ -18,6 +21,7 @@ const HomeMatchHistory = ({
   data?: Games;
   meta?: Meta | undefined;
 }) => {
+  const {copied, onCopy} = useCopy();
   return (
     <Box
       sx={{
@@ -113,9 +117,54 @@ const HomeMatchHistory = ({
                   justifyContent: 'center',
                   alignItems: 'center',
                   flexDirection: 'column',
+                  position: 'relative',
                 }}
               >
                 {status}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    left: 10,
+                    top: 6,
+                  }}
+                >
+                  <Tooltip
+                    arrow
+                    placement="top"
+                    title={copied ? 'Copied' : 'Copy'}
+                    onClick={() => onCopy(game_id)}
+                    componentsProps={{
+                      tooltip: {
+                        sx: {
+                          bgcolor: 'common.black',
+                          '& .MuiTooltip-arrow': {
+                            color: 'common.black',
+                          },
+                        },
+                      },
+                    }}
+                  >
+                    <ContentCopyIcon
+                      sx={{
+                        fontSize: 10,
+                        mr: 0.5,
+                        cursor: 'pointer',
+                      }}
+                    />
+                  </Tooltip>
+                  <Typography component="span" fontSize={10}>
+                    Game ID:
+                  </Typography>{' '}
+                  <Typography
+                    component="span"
+                    fontSize={10}
+                    sx={{
+                      color: '#d5d5d5',
+                    }}
+                  >
+                    {game_id}
+                  </Typography>
+                </Box>
                 <Box
                   sx={{
                     display: 'flex',
