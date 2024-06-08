@@ -152,7 +152,7 @@ function BoardPage() {
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined;
-    if (isSaved && !isGameSaving && errorMessage !== null) {
+    if (isSaved && !isGameSaving && errorMessage === null) {
       interval = setInterval(() => {
         setTimer((prev) => {
           if (prev === 1) {
